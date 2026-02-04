@@ -1,4 +1,3 @@
-
 # !Write python program to implement Simple Linear Regression from scratch using two 
 #! different optimization methods—Ordinary Least Squares (Closed-form) and Gradient Descent 
 #! (Iterative)—and evaluate their performance using five key regression metrics.  
@@ -136,10 +135,4 @@ def main() -> None:
 
 if __name__ == "__main__":
 	main()
-
-
-
-
-
-
 
