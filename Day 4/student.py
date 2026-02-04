@@ -110,7 +110,9 @@ def main() -> None:
     plt.xlabel("Actual Performance Index")
     plt.ylabel("Predicted Performance Index")
     plt.tight_layout()
-    plt.show()
+    output_path = "/home/tushardevx01/Documents/Machine learning/Day 4/actual_vs_predicted.png"
+    plt.savefig(output_path, dpi=150)
+    print(f"Plot saved to: {output_path}")
 
 
 if __name__ == "__main__":
