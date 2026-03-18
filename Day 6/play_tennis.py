@@ -1,5 +1,5 @@
 
-#! write a decision tree classifier program on the play tennis dataset
+#! wap in python to make decision tree classifier program on the play tennis dataset
 
 from pathlib import Path
 
