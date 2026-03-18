@@ -3,13 +3,14 @@
 
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 
 
 def load_play_tennis(file_path: Path) -> pd.DataFrame:
@@ -90,6 +91,29 @@ def main() -> None:
 		"(Sunny, Cool, High, Strong): "
 		f"{sample_pred}"
 	)
+
+	# Save the trained decision tree visualization in the Day 6 folder.
+	preprocessor_fitted = model.named_steps["preprocessor"]
+	onehot = preprocessor_fitted.named_transformers_["cat"]
+	feature_names = onehot.get_feature_names_out(["outlook", "temp", "humidity", "wind"])
+	tree_model = model.named_steps["classifier"]
+
+	plt.figure(figsize=(16, 9))
+	plot_tree(
+		tree_model,
+		feature_names=feature_names,
+		class_names=[str(name) for name in tree_model.classes_],
+		filled=True,
+		rounded=True,
+		fontsize=10,
+	)
+	plt.title("Decision Tree - Play Tennis")
+	plt.tight_layout()
+
+	graph_path = Path(__file__).parent / "play_tennis_tree.png"
+	plt.savefig(graph_path, dpi=300)
+	plt.close()
+	print(f"Tree graph saved to: {graph_path}")
 
 
 if __name__ == "__main__":
