@@ -24,36 +24,27 @@
 
 
 
-import math
-
-working_hours = [5, 6, 8, 10, 12, 15]
-electricity_consumption = [12, 15, 20, 25, 30, 38]
-
-n = len(working_hours)
-sum_x = sum(working_hours)
-sum_y = sum(electricity_consumption)
-sum_xy = sum(x * y for x, y in zip(working_hours, electricity_consumption))
-sum_x_squared = sum(x ** 2 for x in working_hours)
-
-
-
-slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x_squared - sum_x ** 2)
-intercept = (sum_y - slope * sum_x) / n
-
-print(f"Slope: {slope}")
-print(f"Intercept: {intercept}")
-print(f"\nLinear Regression Equation: y = {slope:.4f}x + {intercept:.4f}")
-
 import matplotlib.pyplot as plt
 
-y_predicted = [slope * x + intercept for x in working_hours]
+x = [5, 6, 8, 10, 12, 15]
+y = [12, 15, 20, 25, 30, 38]
+n = len(x)
 
-plt.figure(figsize=(10, 6))
-plt.scatter(working_hours, electricity_consumption, color='blue', label='Actual Data', s=100)
-plt.plot(working_hours, y_predicted, color='red', label='Best-Fit Line', linewidth=2)
-plt.xlabel('Working Hours')
-plt.ylabel('Electricity Consumption (kWh)')
-plt.title('Linear Regression: Electricity Consumption vs Working Hours')
+sx, sy = sum(x), sum(y)
+sxy = sum(a * b for a, b in zip(x, y))
+sx2 = sum(a * a for a in x)
+
+m = (n * sxy - sx * sy) / (n * sx2 - sx * sx)   # slope
+b = (sy - m * sx) / n                            # intercept
+
+print(f"Slope: {m:.4f}")
+print(f"Intercept: {b:.4f}")
+print(f"Equation: y = {m:.4f}x + {b:.4f}")
+
+plt.scatter(x, y, label="Data")
+plt.plot([min(x), max(x)], [m * min(x) + b, m * max(x) + b], "r", label="Best-fit line")
+plt.xlabel("Working Hours")
+plt.ylabel("Electricity Consumption (kWh)")
 plt.legend()
-plt.grid(True, alpha=0.3)
+plt.grid(alpha=0.3)
 plt.show()
