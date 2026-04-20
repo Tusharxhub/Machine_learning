@@ -23,63 +23,41 @@
 #! | 6              | 4.0          |
 #! | 7              | 4.6          |
 
-
 import matplotlib.pyplot as plt
-import matplotlib
 
 X = [2, 3, 4, 5, 6, 7]
-y = [1.5, 2.0, 2.8, 3.3, 4.0, 4.6]
+Y = [1.5, 2.0, 2.8, 3.3, 4.0, 4.6]
 
-def gd(x, y, lr, iters=1000):
-    n = len(x)
-    mu = sum(x) / n
-    std = (sum((i - mu) ** 2 for i in x) / n) ** 0.5
-    xs = [(i - mu) / std for i in x]
-
-    m = b = 0.0
-    cost = []
-    for _ in range(iters):
-        p = [m * i + b for i in xs]
-        e = [p[i] - y[i] for i in range(n)]
-        cost.append(sum(v * v for v in e) / n)
-        m -= lr * (2 / n) * sum(e[i] * xs[i] for i in range(n))
-        b -= lr * (2 / n) * sum(e)
-
-    return m / std, b - m * mu / std, cost
+def fit(lr, it=1000):
+    n = len(X); mu = sum(X)/n
+    sd = (sum((x-mu)**2 for x in X)/n) ** 0.5
+    Z = [(x-mu)/sd for x in X]
+    m = b = 0.0; c = []
+    for _ in range(it):
+        e = [m*z + b - y for z, y in zip(Z, Y)]
+        c.append(sum(v*v for v in e)/n)
+        m -= lr * (2/n) * sum(v*z for v, z in zip(e, Z))
+        b -= lr * (2/n) * sum(e)
+    return m/sd, b - (m*mu/sd), c
 
 rates = [0.001, 0.01, 0.1]
-res = {lr: gd(X, y, lr) for lr in rates}
+out = {r: fit(r) for r in rates}
 
-for lr in rates:
-    m, b, c = res[lr]
-    print(f"LR={lr}  m={m:.4f}  b={b:.4f}  final MSE={c[-1]:.6f}")
+for r in rates:
+    m, b, c = out[r]
+    print(f"LR={r}  m={m:.4f}  b={b:.4f}  MSE={c[-1]:.6f}")
 
-plt.figure(figsize=(11, 4))
-
-plt.subplot(1, 2, 1)
-for lr in rates:
-    plt.plot(res[lr][2], label=f"LR={lr}")
+for r in rates:
+    plt.plot(out[r][2], label=f"LR={r}")
 plt.title("Convergence")
 plt.xlabel("Iteration")
 plt.ylabel("MSE")
-plt.legend()
 plt.grid(alpha=0.3)
-
-plt.subplot(1, 2, 2)
-plt.scatter(X, y, c="black", label="Data")
-for lr in rates:
-    m, b, _ = res[lr]
-    plt.plot(X, [m * i + b for i in X], label=f"LR={lr}")
-plt.title("Fitted Lines")
-plt.xlabel("Sunlight Hours")
-plt.ylabel("Energy (kWh)")
 plt.legend()
-plt.grid(alpha=0.3)
-
 plt.tight_layout()
 
-if "agg" in matplotlib.get_backend().lower():
+if "agg" in plt.get_backend().lower():
     plt.savefig("solar_convergence.png", dpi=300, bbox_inches="tight")
-    print("Plot saved as solar_convergence.png")
+    print("Saved: solar_convergence.png")
 else:
     plt.show()
