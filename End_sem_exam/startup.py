@@ -1,4 +1,4 @@
-#
+
 # ! A startup wants to predict the monthly electricity consumption of its office based on total working hours logged by employees.
 
 # !Write a Python program (without using any inbuilt ML functions) to construct an OLS-based simple linear regression model.
