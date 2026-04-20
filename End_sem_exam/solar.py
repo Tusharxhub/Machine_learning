@@ -1,4 +1,3 @@
-
 # !A solar panel company tracks sunlight hours vs energy generated.
 
 #! Train a gradient descent based linear regression model (without using any library function).
@@ -26,6 +25,7 @@
 
 
 import matplotlib.pyplot as plt
+import matplotlib
 
 X = [2, 3, 4, 5, 6, 7]
 y = [1.5, 2.0, 2.8, 3.3, 4.0, 4.6]
@@ -77,4 +77,9 @@ plt.legend()
 plt.grid(alpha=0.3)
 
 plt.tight_layout()
-plt.show()
+
+if "agg" in matplotlib.get_backend().lower():
+    plt.savefig("solar_convergence.png", dpi=300, bbox_inches="tight")
+    print("Plot saved as solar_convergence.png")
+else:
+    plt.show()
