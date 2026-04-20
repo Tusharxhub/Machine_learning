@@ -24,9 +24,6 @@
 
 
 
-
-
-
 import math
 
 working_hours = [5, 6, 8, 10, 12, 15]
