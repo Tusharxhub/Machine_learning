@@ -1,5 +1,5 @@
-
-#! A startup wants to predict the monthly electricity consumption of its office based on total working hours logged by employees.
+#
+# ! A startup wants to predict the monthly electricity consumption of its office based on total working hours logged by employees.
 
 # !Write a Python program (without using any inbuilt ML functions) to construct an OLS-based simple linear regression model.
 
@@ -25,6 +25,7 @@
 
 
 import matplotlib.pyplot as plt
+import matplotlib
 
 x = [5, 6, 8, 10, 12, 15]
 y = [12, 15, 20, 25, 30, 38]
@@ -47,4 +48,9 @@ plt.xlabel("Working Hours")
 plt.ylabel("Electricity Consumption (kWh)")
 plt.legend()
 plt.grid(alpha=0.3)
-plt.show()
+
+if "agg" in matplotlib.get_backend().lower():
+    plt.savefig("startup_best_fit.png", dpi=300, bbox_inches="tight")
+    print("Plot saved as startup_best_fit.png")
+else:
+    plt.show()
