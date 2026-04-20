@@ -35,7 +35,7 @@ sx, sy = sum(x), sum(y)
 sxy = sum(a * b for a, b in zip(x, y))
 sx2 = sum(a * a for a in x)
 
-m = (n * sxy - sx * sy) / (n * sx2 - sx * sx)   
+m = (n * sxy - sx * sy) / (n * sx2 - sx * sx) 
 b = (sy - m * sx) / n                            
 
 print(f"Slope: {m:.4f}")
